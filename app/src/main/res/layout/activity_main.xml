@@ -98,11 +98,26 @@
             android:textSize="22dp" />
 
         <TextView
+            android:id="@+id/btn_mode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="90dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/tv_design"
+            android:backgroundTint="#292F4E"
+            android:elevation="20dp"
+            android:fontFamily="@font/nanum_bold"
+            android:gravity="center"
+            android:paddingVertical="15dp"
+            android:text="작동모드 변경"
+            android:textColor="#FFFFFF"
+            android:textSize="22dp" />
+
+        <TextView
             android:id="@+id/btn_intro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="90dp"
-            android:layout_marginTop="15dp"
             android:layout_marginBottom="24dp"
             android:background="@drawable/tv_design"
             android:backgroundTint="#FFFFFF"

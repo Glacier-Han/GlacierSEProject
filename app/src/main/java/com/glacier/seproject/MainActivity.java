@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
      * keystore  : glacier key0 glacier
      */
 
-    FrameLayout btn_main;
+    FrameLayout btnMain;
     ImageView mBtnConnect;
     BluetoothAdapter mBluetoothAdapter;
     Set<BluetoothDevice> mPairedDevices;
@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
     final static UUID BT_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
     private boolean isChecked = false;
+    private boolean isChecked2 = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         mBtnConnect = findViewById(R.id.btn_con);
         TextView btnIntro = findViewById(R.id.btn_intro);
+        TextView btnMode = findViewById(R.id.btn_mode);
 
         findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,9 +93,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btn_main = findViewById(R.id.btn_main);
+        btnMain = findViewById(R.id.btn_main);
 
-        btn_main.setOnClickListener(new View.OnClickListener() {
+        btnMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
@@ -104,6 +107,27 @@ public class MainActivity extends AppCompatActivity {
                         isChecked = true;
                         write("2");
                         Toast.makeText(getApplicationContext(), "스마트 창문을 닫습니다!", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "기기를 먼저 연결해주세요", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+        btnMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    if (isChecked2) {
+                        isChecked2 = false;
+                        write("3");
+                        Toast.makeText(getApplicationContext(), "지금부터 자동모드로 작동합니다!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        isChecked2 = true;
+                        write("4");
+                        Toast.makeText(getApplicationContext(), "지금부터 수동모드로 작동합니다!", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
