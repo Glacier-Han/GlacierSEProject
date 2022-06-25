@@ -11,8 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 public class SplashActivity extends AppCompatActivity {
 
     /**
-     * Kmong 22.05.25 Glacier
-     * No Commercial use without original purpose
+     * developer : Glacier (한병하 2018111316)
+     * name      : smart window controller
+     * project   : KNU HUSTAR SE FINAL PROJECT
+     * keystore  : glacier key0 glacier
      */
 
     @Override

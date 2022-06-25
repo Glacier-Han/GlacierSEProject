@@ -10,6 +10,13 @@ import android.view.WindowManager;
 
 public class IntroduceActivity extends AppCompatActivity {
 
+    /**
+     * developer : Glacier (한병하 2018111316)
+     * name      : smart window controller
+     * project   : KNU HUSTAR SE FINAL PROJECT
+     * keystore  : glacier key0 glacier
+     */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

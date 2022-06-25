@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         TextView btnIntro = findViewById(R.id.btn_intro);
         TextView btnMode = findViewById(R.id.btn_mode);
 
+        // 뒤로가기 버튼 클릭리스너
         findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // 블루투스 어댑터 초기화 및 페어링 버튼 클릭리스너
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         mBtnConnect.setOnClickListener(new Button.OnClickListener() {
             @Override
@@ -85,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // 프로젝트 소개 화면 이동 클릭리스너
         btnIntro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,22 +96,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // 창문 컨트롤 버튼 클릭리스너
         btnMain = findViewById(R.id.btn_main);
-
         btnMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
                     if (isChecked) {
                         isChecked = false;
+                        // 창문이 닫혀있을 경우 아두이노로 "1" 데이터를 전송함 (창문 OPEN)
                         write("1");
                         Toast.makeText(getApplicationContext(), "스마트 창문을 엽니다!", Toast.LENGTH_SHORT).show();
                     } else {
                         isChecked = true;
+                        // 창문이 열려있을 경우 아두이노로 "2" 데이터를 전송함 (창문 CLOSE)
                         write("2");
                         Toast.makeText(getApplicationContext(), "스마트 창문을 닫습니다!", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
+                    // 블루투스가 연결되어있지 않으면 데이터 전송단계에서 오류가발생하여 예외처리 후 기기를 연결하라는 토스트메세지 출력
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "기기를 먼저 연결해주세요", Toast.LENGTH_SHORT).show();
                 }
@@ -123,13 +129,16 @@ public class MainActivity extends AppCompatActivity {
                     if (isChecked2) {
                         isChecked2 = false;
                         write("3");
-                        Toast.makeText(getApplicationContext(), "지금부터 자동모드로 작동합니다!", Toast.LENGTH_SHORT).show();
+                        // 자동모드로 설정되어있을 경우 아두이노로 "3" 데이터를 전송함 (수동모드 변경)
+                        Toast.makeText(getApplicationContext(), "지금부터 수동모드로 작동합니다!", Toast.LENGTH_SHORT).show();
                     } else {
                         isChecked2 = true;
                         write("4");
-                        Toast.makeText(getApplicationContext(), "지금부터 수동모드로 작동합니다!", Toast.LENGTH_SHORT).show();
+                        // 자동모드로 설정되어있을 경우 아두이노로 "4" 데이터를 전송함 (자동모드 변경)
+                        Toast.makeText(getApplicationContext(), "지금부터 자동모드로 작동합니다!", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
+                    // 블루투스가 연결되어있지 않으면 데이터 전송단계에서 오류가발생하여 예외처리 후 기기를 연결하라는 토스트메세지 출력
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "기기를 먼저 연결해주세요", Toast.LENGTH_SHORT).show();
                 }
@@ -140,8 +149,8 @@ public class MainActivity extends AppCompatActivity {
 
         /**
          *
-         * TODO ---- 블루투스 수신단 ----
-         *
+         * TODO ---- 블루투스 수신단 ---- (코드상 빨간줄이랑 경고는 퍼미션처리 안해줘서 뜨는건데, 블루투스는 따로 퍼미션체크 안해줘도 되서 무시하면 됨)
+         * TODO ---- ANDROID 버전 12부터 블루투스 권한 강화로 앱이 튕기는 현상 발견. 추후 수정예정 (일단은 12이하 버전 기기로 테스트)
          */
         mBluetoothHandler = new Handler() {
             @SuppressLint("HandlerLeak")
@@ -171,13 +180,14 @@ public class MainActivity extends AppCompatActivity {
      * TODO ---- 블루투스 송신단 ----
      */
     public void write(String input) {
-        byte[] bytes = input.getBytes();           //converts entered String into bytes
+        byte[] bytes = input.getBytes();
         try {
             mBluetoothSocket.getOutputStream().write(bytes);
         } catch (IOException e) {
         }
     }
 
+    // 현재 페어링된 디바이스 리스트를 보여줌
     void listPairedDevices() {
         if (mBluetoothAdapter.isEnabled()) {
             mPairedDevices = mBluetoothAdapter.getBondedDevices();
@@ -210,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    // 선택한 디바이스를 연결
     void connectSelectedDevice(String selectedDeviceName) {
         for (BluetoothDevice tempDevice : mPairedDevices) {
             if (selectedDeviceName.equals(tempDevice.getName())) {
@@ -230,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    // 뒤로가기키 누르면 앱 종료되게
     @Override
     public void onBackPressed() {
         try {
@@ -241,6 +251,7 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
+    // 블루투스 연결 쓰레드 클래스
     private class ConnectedBluetoothThread extends Thread {
         private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;
